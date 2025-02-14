@@ -1,30 +1,47 @@
 import { useState, useEffect } from 'react';
 
-export default function useFetch(url) {
+export default function useFetch(url, resetData = false) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        if (!url) return;
+
         const fetchData = async () => {
             setLoading(true);
             setError(null);
+
+            if (resetData) {
+                setData([]);
+            }
+
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+
                 const result = await response.json();
-                setData(result);
+                const filteredResults = result.results.filter(
+                    (album) =>
+                        (album.format?.includes('Vinyl') ||
+                            album.format?.includes('LP')) &&
+                        album.title
+                );
+
+                setData((prevRes) => [...prevRes, ...filteredResults]);
+                console.log('result', filteredResults);
             } catch (err) {
                 setError(err.message);
+                console.log(err);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchData();
-    }, [url]);
+    }, [url, resetData]);
 
     return { data, loading, error };
 }
