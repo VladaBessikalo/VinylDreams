@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import './SearchBar.scss';
 export default function SearchBar({ onSearch }) {
     const [query, setQuery] = useState('');
 
@@ -11,14 +11,16 @@ export default function SearchBar({ onSearch }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="search-bar">
-            <input
-                type="text"
-                placeholder="Search vinyl records..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-            />
-            <button type="submit">Search</button>
-        </form>
+        <div className="search-bar">
+            <form onSubmit={handleSubmit} className="search-bar__form">
+                <input
+                    type="text"
+                    placeholder="Search vinyl records..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                />
+                <button type="submit">Search</button>
+            </form>
+        </div>
     );
 }

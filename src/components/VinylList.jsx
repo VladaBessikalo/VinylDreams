@@ -1,6 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import useFetch from '../hooks/useFetch.js';
 import './VinylList.scss';
+import { Link } from 'react-router-dom';
+import { VinylContext } from '../context/VinylContext.jsx';
 
 const token = 'bLxswIOxdBPIZYXUKgLDAHgSZLfKGREdKAObuImT';
 const itemsPerPage = 100;
@@ -8,20 +10,27 @@ const itemsPerPage = 100;
 export default function VinylList({ searchQuery }) {
     const [page, setPage] = useState(1);
     const [resetData, setResetData] = useState(false);
-    const containerRef = useRef(null); // Create a ref for the container
+    const containerRef = useRef(null);
+    const { vinyls, setVinyls } = useContext(VinylContext);
 
     const query = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : '';
     const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&format=LP&type=release&per_page=${itemsPerPage}&page=${page}&token=${token}`;
 
     const { data: albums, loading, error } = useFetch(url, resetData);
 
+    // useEffect(() => {
+    //     if (searchQuery) {
+    //         setResetData(true);
+    //     } else {
+    //         setResetData(false);
+    //     }
+    // }, [searchQuery]);
+
     useEffect(() => {
-        if (searchQuery) {
-            setResetData(true);
-        } else {
-            setResetData(false);
-        }
-    }, [searchQuery]);
+        setVinyls([]); // Clear stored vinyls
+        setPage(1);
+        setResetData(true);
+    }, [searchQuery, setVinyls]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -55,17 +64,25 @@ export default function VinylList({ searchQuery }) {
     }, [loading]);
 
     console.log('albums', albums);
+
+    useEffect(() => {
+        if (albums.length > 0) {
+            setVinyls((prevVinyls) => [...prevVinyls, ...albums]);
+        }
+    }, [albums, setVinyls]);
+
     return (
         <div className="vinyl-list" ref={containerRef}>
             <div className="vinyl-list__container">
                 {loading && <p>Loading...</p>}
                 {error && <p>Error {error}</p>}
                 <ul className="vinyl-list__albums">
-                    {albums
+                    {vinyls
                         .filter(
                             (album) =>
-                                album.format?.includes('Vinyl') ||
-                                album.format?.includes('LP')
+                                (album.format?.includes('Vinyl') ||
+                                    album.format?.includes('LP')) &&
+                                !album.cover_image?.endsWith('.gif')
                         )
                         .map((album, index) => (
                             <li
@@ -86,6 +103,12 @@ export default function VinylList({ searchQuery }) {
                                 <p className="vinyl-list__album-genre">
                                     {album.genre}
                                 </p>
+                                <Link
+                                    to={`/vinyl/${album.id}`}
+                                    state={{ album }}
+                                >
+                                    <button>View Details</button>
+                                </Link>
                             </li>
                         ))}
                 </ul>
