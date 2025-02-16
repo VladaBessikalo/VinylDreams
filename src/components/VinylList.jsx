@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import useFetch from '../hooks/useFetch.js';
 import './VinylList.scss';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { VinylContext } from '../context/VinylContext.jsx';
+import VinylItem from './VinylItem.jsx';
 
 const token = 'bLxswIOxdBPIZYXUKgLDAHgSZLfKGREdKAObuImT';
 const itemsPerPage = 100;
@@ -67,7 +68,16 @@ export default function VinylList({ searchQuery }) {
 
     useEffect(() => {
         if (albums.length > 0) {
-            setVinyls((prevVinyls) => [...prevVinyls, ...albums]);
+            setVinyls((prevVinyls) => {
+                const newVinyls = [...prevVinyls, ...albums];
+
+                const uniqueVinyls = newVinyls.filter(
+                    (v, index, self) =>
+                        index === self.findIndex((t) => t.id === v.id)
+                );
+
+                return uniqueVinyls;
+            });
         }
     }, [albums, setVinyls]);
 
@@ -77,40 +87,12 @@ export default function VinylList({ searchQuery }) {
                 {loading && <p>Loading...</p>}
                 {error && <p>Error {error}</p>}
                 <ul className="vinyl-list__albums">
-                    {vinyls
-                        .filter(
-                            (album) =>
-                                (album.format?.includes('Vinyl') ||
-                                    album.format?.includes('LP')) &&
-                                !album.cover_image?.endsWith('.gif')
-                        )
-                        .map((album, index) => (
-                            <li
-                                key={`${album.id}-${index}`} // Combine album.id with index to create a unique key
-                                className="vinyl-list__album-card"
-                            >
-                                <img
-                                    src={album.cover_image}
-                                    alt={album.title}
-                                    className="vinyl-list__album-image"
-                                />
-                                <p className="vinyl-list__album-title">
-                                    {album.title}
-                                </p>
-                                <p className="vinyl-list__album-year">
-                                    {album.year}
-                                </p>
-                                <p className="vinyl-list__album-genre">
-                                    {album.genre}
-                                </p>
-                                <Link
-                                    to={`/vinyl/${album.id}`}
-                                    state={{ album }}
-                                >
-                                    <button>View Details</button>
-                                </Link>
-                            </li>
-                        ))}
+                    {vinyls.map((album, index) => (
+                        <VinylItem
+                            key={`${album.id}-${index}`}
+                            album={album}
+                        ></VinylItem>
+                    ))}
                 </ul>
             </div>
         </div>

@@ -27,10 +27,11 @@ export default function useFetch(url, resetData = false) {
                     (album) =>
                         (album.format?.includes('Vinyl') ||
                             album.format?.includes('LP')) &&
-                        album.title
+                        album.title &&
+                        !album.cover_image?.endsWith('.gif')
                 );
 
-                setData((prevRes) => [...prevRes, ...filteredResults]);
+                setData(filteredResults);
                 console.log('result', filteredResults);
             } catch (err) {
                 setError(err.message);
