@@ -6,7 +6,7 @@ import { VinylContext } from '../context/VinylContext.jsx';
 import VinylItem from './VinylItem.jsx';
 
 const token = 'bLxswIOxdBPIZYXUKgLDAHgSZLfKGREdKAObuImT';
-const itemsPerPage = 100;
+const itemsPerPage = 40;
 
 export default function VinylList({ searchQuery }) {
     const [page, setPage] = useState(1);
@@ -15,7 +15,7 @@ export default function VinylList({ searchQuery }) {
     const { vinyls, setVinyls } = useContext(VinylContext);
 
     const query = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : '';
-    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&format=LP&type=release&per_page=${itemsPerPage}&page=${page}&token=${token}`;
+    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&type=release&per_page=${itemsPerPage}&page=${page}&token=${token}`;
 
     const { data: albums, loading, error } = useFetch(url, resetData);
 

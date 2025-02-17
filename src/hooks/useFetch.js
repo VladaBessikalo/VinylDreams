@@ -24,11 +24,7 @@ export default function useFetch(url, resetData = false) {
 
                 const result = await response.json();
                 const filteredResults = result.results.filter(
-                    (album) =>
-                        (album.format?.includes('Vinyl') ||
-                            album.format?.includes('LP')) &&
-                        album.title &&
-                        !album.cover_image?.endsWith('.gif')
+                    (album) => album.format?.includes('Vinyl') && album.title
                 );
 
                 setData(filteredResults);
