@@ -4,28 +4,25 @@ import './VinylList.scss';
 // import { Link } from 'react-router-dom';
 import { VinylContext } from '../context/VinylContext.jsx';
 import VinylItem from './VinylItem.jsx';
+import SearchBar from './SearchBar.jsx';
 
-const token = 'bLxswIOxdBPIZYXUKgLDAHgSZLfKGREdKAObuImT';
+const API_TOKEN = import.meta.env.VITE_DISCOGS_TOKEN;
+
 const itemsPerPage = 40;
 
-export default function VinylList({ searchQuery }) {
+export default function VinylList() {
+    const [searchQuery, setSearchQuery] = useState('');
+
     const [page, setPage] = useState(1);
     const [resetData, setResetData] = useState(false);
     const containerRef = useRef(null);
     const { vinyls, setVinyls } = useContext(VinylContext);
 
     const query = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : '';
-    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&type=release&per_page=${itemsPerPage}&page=${page}&token=${token}`;
+
+    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&type=release&per_page=${itemsPerPage}&page=${page}&token=${API_TOKEN}`;
 
     const { data: albums, loading, error } = useFetch(url, resetData);
-
-    // useEffect(() => {
-    //     if (searchQuery) {
-    //         setResetData(true);
-    //     } else {
-    //         setResetData(false);
-    //     }
-    // }, [searchQuery]);
 
     useEffect(() => {
         setVinyls([]); // Clear stored vinyls
@@ -82,19 +79,24 @@ export default function VinylList({ searchQuery }) {
     }, [albums, setVinyls]);
 
     return (
-        <div className="vinyl-list" ref={containerRef}>
-            <div className="vinyl-list__container">
-                {loading && <p>Loading...</p>}
-                {error && <p>Error {error}</p>}
-                <ul className="vinyl-list__albums">
-                    {vinyls.map((album, index) => (
-                        <VinylItem
-                            key={`${album.id}-${index}`}
-                            album={album}
-                        ></VinylItem>
-                    ))}
-                </ul>
+        <>
+            <div>
+                <SearchBar onSearch={setSearchQuery} />
             </div>
-        </div>
+            <div className="vinyl-list" ref={containerRef}>
+                <div className="vinyl-list__container">
+                    {loading && <p>Loading...</p>}
+                    {error && <p>Error {error}</p>}
+                    <ul className="vinyl-list__albums">
+                        {vinyls.map((album, index) => (
+                            <VinylItem
+                                key={`${album.id}-${index}`}
+                                album={album}
+                            ></VinylItem>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </>
     );
 }

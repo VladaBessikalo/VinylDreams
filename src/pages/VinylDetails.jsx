@@ -5,6 +5,7 @@ import Header from '../components/Header.jsx';
 import { useFavorites } from '../context/FavoritesContext.jsx';
 import heartRegular from '../assets/heart-regular.svg';
 import heartSolid from '../assets/heart-solid.svg';
+import useAlbumDetails from '../hooks/useAlbumDetails.js';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -15,11 +16,15 @@ const VinylDetails = () => {
     const vinyl =
         location.state?.album || vinyls.find((v) => v.id.toString() === id);
 
+    const { tracklist, loading, error } = useAlbumDetails(id);
+
+    console.log(tracklist);
+
     if (!vinyl) {
         return <div>No details found for this vinyl.</div>;
     }
 
-    const isFavorite = favorites.includes(vinyl);
+    const isFavorite = favorites.some((fav) => fav.id === vinyl.id);
 
     return (
         <>
@@ -38,6 +43,18 @@ const VinylDetails = () => {
                     alt="heart"
                     className="heart"
                 />
+            </div>
+            <div>
+                <h2>Tracklist</h2>
+                {loading && <p>Loading tracklist...</p>}
+                {error && <p>Error: {error}</p>}
+                <ul>
+                    {tracklist.map((track, index) => (
+                        <li key={index}>
+                            {track.position} - {track.title}
+                        </li>
+                    ))}
+                </ul>
             </div>
         </>
     );
