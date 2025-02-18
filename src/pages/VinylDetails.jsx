@@ -35,7 +35,7 @@ const VinylDetails = () => {
                     {album.artists_sort} - {album.title}
                 </h1>
 
-                <img src={imageUrl} alt={album.title} />
+                <img src={imageUrl || vinyl.cover_image} alt={album.title} />
                 <p>Genre: {album.genres}</p>
                 <p>Country: {album.country}</p>
                 <p>Released: {album.released_formatted}</p>
