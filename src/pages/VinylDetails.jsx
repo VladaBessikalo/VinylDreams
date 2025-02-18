@@ -12,30 +12,34 @@ const VinylDetails = () => {
     const location = useLocation();
     const { vinyls } = useContext(VinylContext);
     const { favorites, toggleFavorite } = useFavorites();
+    console.log(id);
+
+    const { album, loading, error } = useAlbumDetails(id);
+    console.log('album', album);
 
     const vinyl =
         location.state?.album || vinyls.find((v) => v.id.toString() === id);
-
-    const { tracklist, loading, error } = useAlbumDetails(id);
-
-    console.log(tracklist);
-
-    if (!vinyl) {
-        return <div>No details found for this vinyl.</div>;
-    }
+    console.log(vinyl);
 
     const isFavorite = favorites.some((fav) => fav.id === vinyl.id);
-
+    const imageUrl =
+        album?.images?.[0]?.uri || album?.images?.[0]?.resource_url;
+    const label = album?.labels?.[0]?.name;
     return (
         <>
             <Header />
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
             <div>
-                <h1>{vinyl.title}</h1>
-                <img src={vinyl.cover_image} alt={vinyl.title} />
-                <p>Year: {vinyl.year}</p>
-                <p>Genre: {vinyl.genre}</p>
-                <p>Country: {vinyl.country}</p>
-                <p>Label: {vinyl.label}</p>
+                <h1>
+                    {album.artists_sort} - {album.title}
+                </h1>
+
+                <img src={imageUrl} alt={album.title} />
+                <p>Genre: {album.genres}</p>
+                <p>Country: {album.country}</p>
+                <p>Released: {album.released_formatted}</p>
+                <p>Label: {label}</p>
             </div>
             <div onClick={() => toggleFavorite(vinyl)}>
                 <img
@@ -46,15 +50,18 @@ const VinylDetails = () => {
             </div>
             <div>
                 <h2>Tracklist</h2>
-                {loading && <p>Loading tracklist...</p>}
-                {error && <p>Error: {error}</p>}
-                <ul>
-                    {tracklist.map((track, index) => (
-                        <li key={index}>
-                            {track.position} - {track.title}
-                        </li>
-                    ))}
-                </ul>
+
+                {album && album.tracklist?.length > 0 ? (
+                    <ul>
+                        {album.tracklist.map((track, index) => (
+                            <li key={index}>
+                                {track.position} - {track.title}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No tracklist available.</p>
+                )}
             </div>
         </>
     );
