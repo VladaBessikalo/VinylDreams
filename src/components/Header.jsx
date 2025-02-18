@@ -17,9 +17,7 @@ export default function Header() {
                 {user ? (
                     isVinylListPage ? (
                         <>
-                            <Link to="/">
-                                <a>Choose new Vinyl Dreams </a>
-                            </Link>
+                            <Link to="/">Choose new Vinyl Dreams</Link>
                             <Link to="/">
                                 <button onClick={logOut}>Logout</button>
                             </Link>

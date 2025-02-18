@@ -10,42 +10,39 @@ import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import VinylDetails from './pages/VinylDetails.jsx';
 import { VinylProvider } from './context/VinylContext.jsx';
-import { FavoritesProvider } from './context/FavoritesContext.jsx';
 import { useState } from 'react';
 
 function App() {
     const [searchQuery, setSearchQuery] = useState('');
 
     return (
-        <FavoritesProvider>
-            <VinylProvider>
-                <AuthProvider>
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <Home
-                                    searchQuery={searchQuery}
-                                    setSearchQuery={setSearchQuery}
-                                />
-                            }
-                        />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<SignUp />} />
+        <VinylProvider>
+            <AuthProvider>
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <Home
+                                searchQuery={searchQuery}
+                                setSearchQuery={setSearchQuery}
+                            />
+                        }
+                    />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<SignUp />} />
 
-                        <Route
-                            path="/vinyldreams"
-                            element={
-                                <ProtectedRoute>
-                                    <VinylDreamsList />
-                                </ProtectedRoute>
-                            }
-                        />
-                        <Route path="/vinyl/:id" element={<VinylDetails />} />
-                    </Routes>
-                </AuthProvider>
-            </VinylProvider>
-        </FavoritesProvider>
+                    <Route
+                        path="/vinyldreams"
+                        element={
+                            <ProtectedRoute>
+                                <VinylDreamsList />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route path="/vinyl/:id" element={<VinylDetails />} />
+                </Routes>
+            </AuthProvider>
+        </VinylProvider>
     );
 }
 
