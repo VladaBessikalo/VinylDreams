@@ -32,13 +32,17 @@ function App() {
                     <Route path="/signup" element={<SignUp />} />
 
                     <Route
-                        path="/vinyldreams"
+                        path="/vinyldreams/"
                         element={
                             <ProtectedRoute>
                                 <VinylDreamsList />
                             </ProtectedRoute>
                         }
                     />
+                    <Route
+                        path="/vinyldreams/:id"
+                        element={<VinylDreamsList />}
+                    ></Route>
                     <Route path="/vinyl/:id" element={<VinylDetails />} />
                 </Routes>
             </AuthProvider>

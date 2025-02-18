@@ -20,8 +20,8 @@ export default function VinylList() {
 
     const query = searchQuery ? `q=${encodeURIComponent(searchQuery)}` : '';
 
-    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&type=release&genre=rock&per_page=${itemsPerPage}&page=${page}&token=${API_TOKEN}`;
-    // const url = `https://api.discogs.com/marketplace/search?q=${query}&format=Vinyl&page=${page}&token=${API_TOKEN}`;
+    const url = `https://api.discogs.com/database/search?${query}&format=Vinyl&type=release&per_page=${itemsPerPage}&page=${page}&token=${API_TOKEN}`;
+
     const { data: albums, loading, error } = useFetch(url, resetData);
 
     useEffect(() => {

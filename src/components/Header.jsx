@@ -12,7 +12,9 @@ export default function Header() {
     console.log(user);
     return (
         <div className="header">
-            <header>🤍🤍🤍 Vinyl Dreams 🤍🤍🤍</header>
+            <header>
+                <a href="/">🤍🤍🤍 Vinyl Dreams 🤍🤍🤍</a>
+            </header>
             <nav className="header-nav">
                 {user ? (
                     isVinylListPage ? (

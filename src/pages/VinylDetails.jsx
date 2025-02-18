@@ -1,17 +1,18 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { VinylContext } from '../context/VinylContext.jsx';
 import Header from '../components/Header.jsx';
 import useAlbumDetails from '../hooks/useAlbumDetails.js';
 import { db } from '../auth/firebaseConfig.jsx';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useAuth } from '../auth/context/AuthContext.jsx';
+import { nanoid } from 'nanoid';
 
 const VinylDetails = () => {
     const { id } = useParams();
     const location = useLocation();
     const { vinyls } = useContext(VinylContext);
-    console.log(id);
+    const navigate = useNavigate();
 
     const { album, loading, error } = useAlbumDetails(id);
     console.log('album', album);
@@ -28,12 +29,24 @@ const VinylDetails = () => {
 
     const addToWishlist = async (album) => {
         if (!user) return alert('Please log in first!');
+        const wishlistRef = doc(db, 'wishlists', user.uid);
+        const wishlistSnap = await getDoc(wishlistRef);
+
+        let wishlistId;
+        if (wishlistSnap.exists()) {
+            wishlistId = wishlistSnap.data().wishlistId; // Use existing wishlist
+        } else {
+            wishlistId = nanoid(10); // Generate new wishlist ID
+            await setDoc(wishlistRef, { wishlistId, isPublic: false }); // Create wishlist
+        }
+
+        navigate(`/vinyldreams/${wishlistId}`); // This will redirect to the wishlist page with the ID in the URL
 
         const albumId = album.id.toString();
         const albumRef = doc(db, 'wishlists', user.uid, 'albums', albumId);
-
         await setDoc(albumRef, album);
-        console.log('Album added to wishlist');
+
+        console.log(`Album added to wishlist (${wishlistId})`);
     };
 
     return (
