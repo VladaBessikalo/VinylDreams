@@ -8,6 +8,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useAuth } from '../auth/context/AuthContext.jsx';
 import { nanoid } from 'nanoid';
 import Loader from '../components/Loader.jsx';
+import '../styles/VinylDetails.scss';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -50,47 +51,49 @@ const VinylDetails = () => {
     return (
         <>
             <Header />
-            {loading && <Loader />}
-            {error && <p>Error: {error}</p>}
-            <div>
-                <h1>
-                    {album.artists_sort} - {album.title}
-                    <button
-                        onClick={() => {
-                            addToWishlist(album);
-                        }}
-                    >
-                        ❤️
-                    </button>
-                </h1>
-                <img src={imageUrl || vinyl.cover_image} alt={album.title} />
-                <p>Genre: {album.genres}</p>
-                <p>Country: {album.country}</p>
-                <p>Released: {album.released_formatted}</p>
-                <p>Label: {label}</p>
-                <div>
-                    <h2>Tracklist</h2>
+            {loading ? (
+                <Loader />
+            ) : error ? (
+                <p>Error: {error}</p>
+            ) : (
+                <div className="album-details__wrapper">
+                    <div className="album-details">
+                        <h1>
+                            {album.artists_sort} - {album.title}
+                            <button
+                                onClick={() => {
+                                    addToWishlist(album);
+                                }}
+                            >
+                                🤍
+                            </button>
+                        </h1>
+                        <img
+                            src={imageUrl || vinyl.cover_image}
+                            alt={album.title}
+                        />
+                        <p>Genre: {album.genres}</p>
+                        <p>Country: {album.country}</p>
+                        <p>Released: {album.released_formatted}</p>
+                        <p>Label: {label}</p>
+                        <div className="tracklist">
+                            <h2>Tracklist</h2>
 
-                    {album && album.tracklist?.length > 0 ? (
-                        <ul>
-                            {album.tracklist.map((track, index) => (
-                                <li key={index}>
-                                    {track.position} - {track.title}
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No tracklist available.</p>
-                    )}
+                            {album && album.tracklist?.length > 0 ? (
+                                <ul>
+                                    {album.tracklist.map((track, index) => (
+                                        <li key={index}>
+                                            {track.position} - {track.title}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No tracklist available.</p>
+                            )}
+                        </div>
+                    </div>
                 </div>
-            </div>
-            {/* <div onClick={() => toggleFavorite(album)}>
-                <img
-                    src={isFavorite ? heartSolid : heartRegular}
-                    alt="heart"
-                    className="heart"
-                />
-            </div> */}
+            )}
         </>
     );
 };

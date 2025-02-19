@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/context/AuthContext.jsx';
-import './Header.scss';
+import '../styles/Header.scss';
 import vinylIcon from '../assets/vinyl-icon.png';
 import { HeaderButton } from './HeaderButton.jsx';
 
@@ -25,9 +25,13 @@ export default function Header() {
                 {user ? (
                     <>
                         {pathname === '/wishlist' ? (
-                            <Link to="/">Choose new Vinyl Dreams</Link>
+                            <Link to="/" className="header__nav-route">
+                                Choose new Vinyl Dreams
+                            </Link>
                         ) : (
-                            <Link to="/wishlist">My Vinyl Dreams 🤍</Link>
+                            <Link to="/wishlist" className="header__nav-route">
+                                My Vinyl Dreams 🤍🤍🤍
+                            </Link>
                         )}
                         <HeaderButton onClick={logOut}>Log out</HeaderButton>
                     </>

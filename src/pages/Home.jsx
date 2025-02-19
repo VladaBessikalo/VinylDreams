@@ -1,6 +1,6 @@
 import VinylList from '../components/VinylList';
 
-import './Home.scss';
+import '../styles/Home.scss';
 import Header from '../components/Header.jsx';
 
 export default function Home() {

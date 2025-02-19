@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import useFetch from '../hooks/useFetch.js';
-import './VinylList.scss';
+import '../styles/VinylList.scss';
 // import { Link } from 'react-router-dom';
 import { VinylContext } from '../context/VinylContext.jsx';
 import VinylItem from './VinylItem.jsx';

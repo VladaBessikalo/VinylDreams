@@ -1,6 +1,6 @@
 import { PuffLoader } from 'react-spinners';
 import PropTypes from 'prop-types';
-import './Loader.scss';
+import '../styles/Loader.scss';
 
 export default function Loader({ size = 50, color = '#333' }) {
     return (

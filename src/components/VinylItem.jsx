@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './VinylItem.scss';
+import '../styles/VinylItem.scss';
 import defaultImg from '../assets/vinyl.png';
 
 export default function VinylItem({ album }) {
