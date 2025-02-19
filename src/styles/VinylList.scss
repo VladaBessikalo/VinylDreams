@@ -35,24 +35,23 @@
         }
     }
 
-    /* Responsive Adjustments */
     @media (max-width: 1024px) {
         &__album-card {
-            flex: 1 1 calc(33.33% - 20px); // 3 items per row
+            flex: 1 1 calc(33.33% - 20px);
             max-width: calc(33.33% - 20px);
         }
     }
 
     @media (max-width: 768px) {
         &__album-card {
-            flex: 1 1 calc(50% - 20px); // 2 items per row
+            flex: 1 1 calc(50% - 20px);
             max-width: calc(50% - 20px);
         }
     }
 
     @media (max-width: 480px) {
         &__album-card {
-            flex: 1 1 100%; // 1 item per row
+            flex: 1 1 100%;
             max-width: 100%;
         }
     }

@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// const API_TOKEN = import.meta.env.VITE_DISCOGS_TOKEN;
-
 const useAlbumDetails = (albumId) => {
     const [album, setAlbum] = useState('');
     const [loading, setLoading] = useState(false);

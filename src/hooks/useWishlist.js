@@ -6,7 +6,6 @@ import {
     getDocs,
     deleteDoc,
     doc,
-    updateDoc,
     getDoc
 } from 'firebase/firestore';
 
@@ -66,24 +65,10 @@ export default function useWishlist(wishlistId) {
         }
     };
 
-    const togglePublicStatus = async (event) => {
-        const newStatus = event.target.checked;
-        const wishlistRef = doc(db, 'wishlists', user.uid);
-
-        try {
-            await updateDoc(wishlistRef, { isPublic: newStatus });
-            setIsPublic(newStatus);
-        } catch (error) {
-            console.error('Error updating wishlist visibility:', error);
-            setError('Failed to update wishlist visibility.');
-        }
-    };
-
     return {
         wishlist,
         isPublic,
         deleteItem,
-        togglePublicStatus,
         loading,
         error
     };
