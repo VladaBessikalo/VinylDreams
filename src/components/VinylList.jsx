@@ -5,6 +5,7 @@ import './VinylList.scss';
 import { VinylContext } from '../context/VinylContext.jsx';
 import VinylItem from './VinylItem.jsx';
 import SearchBar from './SearchBar.jsx';
+import Loader from './Loader.jsx';
 
 const API_TOKEN = import.meta.env.VITE_DISCOGS_TOKEN;
 
@@ -85,7 +86,7 @@ export default function VinylList() {
             </div>
             <div className="vinyl-list" ref={containerRef}>
                 <div className="vinyl-list__container">
-                    {loading && <p>Loading...</p>}
+                    {loading && <Loader />}
                     {error && <p>Error {error}</p>}
                     <ul className="vinyl-list__albums">
                         {vinyls.map((album, index) => (

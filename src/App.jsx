@@ -5,7 +5,7 @@ import Home from './pages/Home';
 
 import './App.scss';
 import ProtectedRoute from './auth/ProtectedRoute.jsx';
-import VinylDreamsList from './pages/VinylDreamsList.jsx';
+import WishList from './pages/WishList.jsx';
 import Login from './pages/Login.jsx';
 import SignUp from './pages/SignUp.jsx';
 import VinylDetails from './pages/VinylDetails.jsx';
@@ -32,10 +32,10 @@ function App() {
                     <Route path="/signup" element={<SignUp />} />
 
                     <Route
-                        path="/vinyldreams/"
+                        path="/wishlist/"
                         element={
                             <ProtectedRoute>
-                                <VinylDreamsList />
+                                <WishList />
                             </ProtectedRoute>
                         }
                     />

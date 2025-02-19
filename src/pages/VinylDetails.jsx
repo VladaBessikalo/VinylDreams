@@ -7,6 +7,7 @@ import { db } from '../auth/firebaseConfig.jsx';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { useAuth } from '../auth/context/AuthContext.jsx';
 import { nanoid } from 'nanoid';
+import Loader from '../components/Loader.jsx';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -49,7 +50,7 @@ const VinylDetails = () => {
     return (
         <>
             <Header />
-            {loading && <p>Loading...</p>}
+            {loading && <Loader />}
             {error && <p>Error: {error}</p>}
             <div>
                 <h1>

@@ -16,7 +16,7 @@ const Login = () => {
 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate('/vinyldreams');
+            navigate('/wishlist');
         } catch (error) {
             setError(`Invalid credentials, ${error.message}`);
         }
@@ -46,7 +46,6 @@ const Login = () => {
             </form>
             <p>Don`t have an account?</p>
             <Link to="/signup" className="signup">
-                {' '}
                 Sign up
             </Link>
         </div>
