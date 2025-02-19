@@ -53,6 +53,7 @@ The app fetches vinyl record data from the [Discogs API](https://www.discogs.com
    
    ```env
    DISCOGS_API_TOKEN=your_discogs_api_token_here
+    ```
 
 5. **Set up Firebase:**
    - Create a Firebase project.
