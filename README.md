@@ -6,7 +6,7 @@
 
 - **🎵 Main Page with Infinite Scroll** 
 - **🔐 Authentication & Authorization via Firebase**
-- **💿 Rotating **
+- **💿 Rotating**
 - **📜 Vinyl Details Page**
 - **⭐ Vinyl Dreams List** 
 - **➕ Add to/Delete from Vinyl Dreams, managed using Firebase.** 
