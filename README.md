@@ -43,7 +43,7 @@ The app fetches vinyl record data from the [Discogs API](https://www.discogs.com
    3. Once logged in, create a new application to get your API key.
    4. After creating the application, you’ll receive an API token. This token is required to interact with the Discogs API.
 
-4 **Add Your Token to the Project**
+4. **Add Your Token to the Project**
    After obtaining your token, you need to add it to your project. You can either:
    
    - Store it in a `.env` file or
