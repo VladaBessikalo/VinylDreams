@@ -33,7 +33,6 @@ The app fetches vinyl record data from the [Discogs API](https://www.discogs.com
    ```bash
    npm install
    ```
-   ## Setup Instructions
 
 3. **Register on Discogs**
    To use the Discogs API, you need to have an API token. Follow these steps to register and obtain your token:
