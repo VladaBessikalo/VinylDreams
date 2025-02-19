@@ -66,6 +66,7 @@ The app fetches vinyl record data from the [Discogs API](https://www.discogs.com
      VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
      VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
      VITE_FIREBASE_APP_ID=your_app_id
+     VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
      ```
 6. **Start the development server:**
    ```bash
