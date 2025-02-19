@@ -2,6 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/context/AuthContext.jsx';
 import './Header.scss';
 import vinylIcon from '../assets/vinyl-icon.png';
+import { HeaderButton } from './HeaderButton.jsx';
 
 export default function Header() {
     const { user, logOut } = useAuth();
@@ -20,7 +21,7 @@ export default function Header() {
                 </Link>
             </header>
             <div className="header__motto"> Vinyl Dreams, Tailored by You!</div>
-            <nav className="header_nav">
+            <nav className="header__nav">
                 {user ? (
                     <>
                         {pathname === '/wishlist' ? (
@@ -28,10 +29,14 @@ export default function Header() {
                         ) : (
                             <Link to="/wishlist">My Vinyl Dreams 🤍</Link>
                         )}
-                        <button onClick={logOut}>Logout</button>
+                        <HeaderButton onClick={logOut}>Log out</HeaderButton>
                     </>
                 ) : (
-                    pathname === '/' && <Link to="/login">Login</Link>
+                    pathname === '/' && (
+                        <Link to="/login">
+                            <HeaderButton>Login</HeaderButton>
+                        </Link>
+                    )
                 )}
             </nav>
         </div>

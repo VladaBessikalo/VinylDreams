@@ -33,3 +33,13 @@ button {
     width: 20px;
     height: 20px;
 }
+
+.form {
+    &__toggle {
+        color: black;
+
+        &:hover {
+            color: red;
+        }
+    }
+}
