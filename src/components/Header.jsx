@@ -4,40 +4,25 @@ import './Header.scss';
 
 export default function Header() {
     const { user, logOut } = useAuth();
-    const location = useLocation();
+    const { pathname } = useLocation();
 
-    const isVinylListPage = location.pathname === '/vinyldreams';
-    const isHomePage = location.pathname === '/';
-
-    console.log(user);
     return (
         <div className="header">
             <header>
-                <a href="/">🤍🤍🤍 Vinyl Dreams 🤍🤍🤍</a>
+                <Link to="/">🤍🤍🤍 Vinyl Dreams 🤍🤍🤍</Link>
             </header>
             <nav className="header-nav">
                 {user ? (
-                    isVinylListPage ? (
-                        <>
+                    <>
+                        {pathname === '/vinyldreams' ? (
                             <Link to="/">Choose new Vinyl Dreams</Link>
-                            <Link to="/">
-                                <button onClick={logOut}>Logout</button>
-                            </Link>
-                        </>
-                    ) : (
-                        <>
+                        ) : (
                             <Link to="/vinyldreams">My Vinyl Dreams 🤍</Link>
-                            <Link to="/">
-                                <button onClick={logOut}>Logout</button>
-                            </Link>
-                        </>
-                    )
+                        )}
+                        <button onClick={logOut}>Logout</button>
+                    </>
                 ) : (
-                    isHomePage && (
-                        <>
-                            <Link to="/login">Login</Link>
-                        </>
-                    )
+                    pathname === '/' && <Link to="/login">Login</Link>
                 )}
             </nav>
         </div>

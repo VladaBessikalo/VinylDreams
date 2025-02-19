@@ -23,6 +23,7 @@ export default function VinylDreamsList() {
         const fetchWishlist = async () => {
             const wishlistRef = doc(db, 'wishlists', user.uid);
             const docSnap = await getDoc(wishlistRef);
+            console.log(docSnap.data().wishlistId);
 
             if (docSnap.exists()) {
                 setIsPublic(docSnap.data().isPublic || false); // Set the public status

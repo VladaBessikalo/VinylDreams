@@ -1,4 +1,4 @@
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useContext } from 'react';
 import { VinylContext } from '../context/VinylContext.jsx';
 import Header from '../components/Header.jsx';
@@ -12,7 +12,6 @@ const VinylDetails = () => {
     const { id } = useParams();
     const location = useLocation();
     const { vinyls } = useContext(VinylContext);
-    const navigate = useNavigate();
 
     const { album, loading, error } = useAlbumDetails(id);
     console.log('album', album);
@@ -34,13 +33,11 @@ const VinylDetails = () => {
 
         let wishlistId;
         if (wishlistSnap.exists()) {
-            wishlistId = wishlistSnap.data().wishlistId; // Use existing wishlist
+            wishlistId = wishlistSnap.data().wishlistId;
         } else {
-            wishlistId = nanoid(10); // Generate new wishlist ID
-            await setDoc(wishlistRef, { wishlistId, isPublic: false }); // Create wishlist
+            wishlistId = nanoid(10);
+            await setDoc(wishlistRef, { wishlistId, isPublic: false });
         }
-
-        navigate(`/vinyldreams/${wishlistId}`); // This will redirect to the wishlist page with the ID in the URL
 
         const albumId = album.id.toString();
         const albumRef = doc(db, 'wishlists', user.uid, 'albums', albumId);

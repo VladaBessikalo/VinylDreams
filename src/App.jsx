@@ -39,10 +39,7 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
-                        path="/vinyldreams/:id"
-                        element={<VinylDreamsList />}
-                    ></Route>
+
                     <Route path="/vinyl/:id" element={<VinylDetails />} />
                 </Routes>
             </AuthProvider>
