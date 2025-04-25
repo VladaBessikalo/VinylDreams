@@ -9,7 +9,11 @@
 - **💿 Rotating**
 - **📜 Vinyl Details Page**
 - **⭐ Vinyl Dreams List** 
-- **➕ Add to/Delete from Vinyl Dreams, managed using Firebase.** 
+- **➕ Add to/Delete from Vinyl Dreams, managed using Firebase.**
+
+## 🔗 Live Demo
+Check out the live version here: [VinylDreams Demo](https://vinyldreams-vb.web.app/)
+
 
 ## 🌍 API
 The app fetches vinyl record data from the [Discogs API](https://www.discogs.com/developers/#), providing access to a vast database of music records.
