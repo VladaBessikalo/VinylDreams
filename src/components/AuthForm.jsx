@@ -75,7 +75,9 @@ const AuthForm = ({ onSubmit, heading, linkText, linkPath, errorMessage }) => {
                         {linkText}{' '}
                         <Link
                             to={linkPath}
-                            style={{ textDecoration: 'none' }}
+                            style={{
+                                textDecoration: 'none'
+                            }}
                             className="form__toggle"
                         >
                             {heading === 'Login' ? 'Sign up' : 'Login'}

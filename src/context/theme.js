@@ -21,6 +21,33 @@ const theme = createTheme({
         h1: {
             fontSize: '2.5rem'
         }
+    },
+    components: {
+        MuiOutlinedInput: {
+            styleOverrides: {
+                root: {
+                    '& .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'gray'
+                    },
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'gray'
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: 'gray'
+                    }
+                }
+            }
+        },
+        MuiInputLabel: {
+            styleOverrides: {
+                root: {
+                    color: 'gray',
+                    '&.Mui-focused': {
+                        color: 'gray'
+                    }
+                }
+            }
+        }
     }
 });
 
