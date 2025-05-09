@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../styles/VinylItem.scss';
 import defaultImg from '../assets/vinyl.png';
+import { AppButton } from './AppButton';
 
 export default function VinylItem({ album }) {
     const coverImage = album.cover_image?.endsWith('.gif')
@@ -21,7 +22,7 @@ export default function VinylItem({ album }) {
                     {album.genre || album.genres}
                 </p>
                 <Link to={`/vinyl/${album.id}`} state={{ album }}>
-                    <button>View Details</button>
+                    <AppButton>View Details</AppButton>
                 </Link>
             </div>
         </li>

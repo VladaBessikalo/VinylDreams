@@ -3,13 +3,18 @@ import { useAuth } from '../auth/context/AuthContext.jsx';
 import '../styles/Header.scss';
 import vinylIcon from '../assets/vinyl-icon.png';
 import { HeaderButton } from './HeaderButton.jsx';
+import { useTheme } from '@mui/material';
 
 export default function Header() {
     const { user, logOut } = useAuth();
     const { pathname } = useLocation();
+    const theme = useTheme();
 
     return (
-        <div className="header">
+        <div
+            className="header"
+            style={{ backgroundColor: theme.palette.secondary.main }}
+        >
             <header>
                 <Link to="/" className="vinyl-logo">
                     <img
