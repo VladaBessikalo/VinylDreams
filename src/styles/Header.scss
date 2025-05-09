@@ -52,9 +52,14 @@
         margin-top: 10px;
         font-size: 20px;
         font-weight: 600;
-        color: rgb(18, 18, 18);
+        color: rgb(255, 255, 255);
         transition: color 0.3s ease;
         transform: scale(1.1);
+        font-style: italic;
+
+        &:hover {
+            color: rgb(255, 255, 255);
+        }
     }
 
     &:hover .vinyl-logo__vinyl-icon {

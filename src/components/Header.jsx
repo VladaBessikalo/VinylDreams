@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../auth/context/AuthContext.jsx';
 import '../styles/Header.scss';
-import vinylIcon from '../assets/vinyl-icon.png';
+import vinylIcon from '../assets/romantic-vinyl-svgrepo-com.svg';
 import { HeaderButton } from './HeaderButton.jsx';
 import { useTheme } from '@mui/material';
 
