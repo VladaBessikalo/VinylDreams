@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid';
 import Loader from '../components/Loader.jsx';
 import '../styles/VinylDetails.scss';
 import { AppButton } from '../components/AppButton.jsx';
+import { Box, Typography } from '@mui/material';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -95,9 +96,21 @@ const VinylDetails = () => {
                 <p>Error: {error}</p>
             ) : (
                 <div className="album-details__wrapper">
-                    <div className="album-details">
-                        <h1>
-                            {album.artists_sort} - {album.title}
+                    <Box className="album-details">
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'flex-start',
+                                width: '100%',
+                                padding: '15px 0',
+                                gap: '30px',
+                                marginBottom: '20px'
+                            }}
+                        >
+                            <Typography variant="h5" sx={{ fontStyle: 'bold' }}>
+                                {album.artists_sort} - {album.title}
+                            </Typography>
                             <AppButton
                                 onClick={() => {
                                     if (isWishlisted) {
@@ -109,31 +122,56 @@ const VinylDetails = () => {
                             >
                                 {isWishlisted ? '🖤' : '🤍'}
                             </AppButton>
-                        </h1>
-                        <img
-                            src={imageUrl || vinyl.cover_image}
-                            alt={album.title}
-                        />
-                        <p>Genre: {album.genres}</p>
-                        <p>Country: {album.country}</p>
-                        <p>Released: {album.released_formatted}</p>
-                        <p>Label: {label}</p>
-                        <div className="tracklist">
-                            <h2>Tracklist</h2>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                gap: 4,
+                                width: '100%'
+                            }}
+                            className="album-details__content"
+                        >
+                            <Box
+                                sx={{
+                                    flexShrink: 0,
+                                    width: '300px'
+                                }}
+                            >
+                                <img
+                                    src={imageUrl || vinyl.cover_image}
+                                    alt={album.title}
+                                    style={{ width: '100%', height: 'auto' }}
+                                />
+                                <Box sx={{ marginTop: '20px' }}>
+                                    <p>Genre: {album.genres}</p>
+                                    <p>Country: {album.country}</p>
+                                    <p>Released: {album.released_formatted}</p>
+                                    <p>Label: {label}</p>
+                                </Box>
+                            </Box>
+                            <Box className="tracklist">
+                                <Typography
+                                    variant="h6"
+                                    sx={{ paddingBottom: '10px' }}
+                                >
+                                    Tracklist:{' '}
+                                </Typography>
 
-                            {album && album.tracklist?.length > 0 ? (
-                                <ul>
-                                    {album.tracklist.map((track, index) => (
-                                        <li key={index}>
-                                            {track.position} - {track.title}
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No tracklist available.</p>
-                            )}
-                        </div>
-                    </div>
+                                {album && album.tracklist?.length > 0 ? (
+                                    <ul>
+                                        {album.tracklist.map((track, index) => (
+                                            <li key={index}>
+                                                {track.position} - {track.title}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p>No tracklist available.</p>
+                                )}
+                            </Box>
+                        </Box>
+                    </Box>
                 </div>
             )}
         </>
