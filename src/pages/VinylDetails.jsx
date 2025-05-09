@@ -1,14 +1,15 @@
 import { useParams, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { VinylContext } from '../context/VinylContext.jsx';
 import Header from '../components/Header.jsx';
 import useAlbumDetails from '../hooks/useAlbumDetails.js';
 import { db } from '../auth/firebaseConfig.jsx';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useAuth } from '../auth/context/AuthContext.jsx';
 import { nanoid } from 'nanoid';
 import Loader from '../components/Loader.jsx';
 import '../styles/VinylDetails.scss';
+import { AppButton } from '../components/AppButton.jsx';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -16,6 +17,9 @@ const VinylDetails = () => {
     const { vinyls } = useContext(VinylContext);
 
     const { album, loading, error } = useAlbumDetails(id);
+
+    const [isWishlisted, setIsWishlisted] = useState(false);
+
     console.log('album', album);
 
     const vinyl =
@@ -24,9 +28,28 @@ const VinylDetails = () => {
 
     const imageUrl =
         album?.images?.[0]?.uri || album?.images?.[0]?.resource_url;
+
     const label = album?.labels?.[0]?.name;
 
     const { user } = useAuth();
+
+    useEffect(() => {
+        const checkWishlist = async () => {
+            if (!user || !album?.id) return;
+            const albumRef = doc(
+                db,
+                'wishlists',
+                user.uid,
+                'albums',
+                album.id.toString()
+            );
+            const docSnap = await getDoc(albumRef);
+            if (docSnap.exists()) {
+                setIsWishlisted(true);
+            }
+        };
+        checkWishlist();
+    }, [user, album]);
 
     const addToWishlist = async (album) => {
         if (!user) return alert('Please log in first!');
@@ -45,7 +68,22 @@ const VinylDetails = () => {
         const albumRef = doc(db, 'wishlists', user.uid, 'albums', albumId);
         await setDoc(albumRef, album);
 
+        setIsWishlisted(true);
         console.log(`Album added to wishlist (${wishlistId})`);
+    };
+
+    const removeFromWishlist = async (album) => {
+        if (!user) return alert('Please log in first!');
+        const albumId = album.id.toString();
+        const albumRef = doc(db, 'wishlists', user.uid, 'albums', albumId);
+
+        try {
+            await deleteDoc(albumRef);
+            setIsWishlisted(false);
+            console.log('Album removed from wishlist');
+        } catch (error) {
+            console.error('Error removing album from wishlist: ', error);
+        }
     };
 
     return (
@@ -60,13 +98,17 @@ const VinylDetails = () => {
                     <div className="album-details">
                         <h1>
                             {album.artists_sort} - {album.title}
-                            <button
+                            <AppButton
                                 onClick={() => {
-                                    addToWishlist(album);
+                                    if (isWishlisted) {
+                                        removeFromWishlist(album);
+                                    } else {
+                                        addToWishlist(album);
+                                    }
                                 }}
                             >
-                                🤍
-                            </button>
+                                {isWishlisted ? '🖤' : '🤍'}
+                            </AppButton>
                         </h1>
                         <img
                             src={imageUrl || vinyl.cover_image}
