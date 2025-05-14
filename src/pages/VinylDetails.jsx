@@ -9,8 +9,7 @@ import { useAuth } from '../auth/context/AuthContext.jsx';
 import { nanoid } from 'nanoid';
 import Loader from '../components/Loader.jsx';
 import '../styles/VinylDetails.scss';
-import { AppButton } from '../components/AppButton.jsx';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Button } from '@mui/material';
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -105,13 +104,12 @@ const VinylDetails = () => {
                                 width: '100%',
                                 padding: '15px 0',
                                 gap: '30px',
-                                marginBottom: '20px'
                             }}
                         >
                             <Typography variant="h5" sx={{ fontStyle: 'bold' }}>
                                 {album.artists_sort} - {album.title}
                             </Typography>
-                            <AppButton
+                            <Button sx={{fontSize: '20px'}}
                                 onClick={() => {
                                     if (isWishlisted) {
                                         removeFromWishlist(album);
@@ -121,7 +119,7 @@ const VinylDetails = () => {
                                 }}
                             >
                                 {isWishlisted ? '🖤' : '🤍'}
-                            </AppButton>
+                            </Button>
                         </Box>
                         <Box
                             sx={{
