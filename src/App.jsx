@@ -13,6 +13,7 @@ import { VinylProvider } from './context/VinylContext.jsx';
 import { useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './context/theme.js';
+import { SearchProvider } from './context/SearchContext.jsx';
 
 function App() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -20,6 +21,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <VinylProvider>
+                <SearchProvider>
                 <AuthProvider>
                     <Routes>
                         <Route
@@ -46,6 +48,7 @@ function App() {
                         <Route path="/vinyl/:id" element={<VinylDetails />} />
                     </Routes>
                 </AuthProvider>
+                </SearchProvider>
             </VinylProvider>
         </ThemeProvider>
     );

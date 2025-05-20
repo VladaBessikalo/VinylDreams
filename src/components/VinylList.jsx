@@ -3,15 +3,15 @@ import useFetch from '../hooks/useFetch.js';
 import '../styles/VinylList.scss';
 import { VinylContext } from '../context/VinylContext.jsx';
 import VinylItem from './VinylItem.jsx';
-import SearchBar from './SearchBar.jsx';
 import Loader from './Loader.jsx';
+import { useSearch } from '../context/SearchContext.jsx';
 
 const API_TOKEN = import.meta.env.VITE_DISCOGS_TOKEN;
 
 const itemsPerPage = 40;
 
 export default function VinylList() {
-    const [searchQuery, setSearchQuery] = useState('');
+    const { searchQuery } = useSearch();
 
     const [page, setPage] = useState(1);
     const [resetData, setResetData] = useState(false);
@@ -80,9 +80,6 @@ export default function VinylList() {
 
     return (
         <>
-            <div>
-                <SearchBar onSearch={setSearchQuery} />
-            </div>
             <div className="vinyl-list" ref={containerRef}>
                 <div className="vinyl-list__container">
                     {loading && <Loader />}
