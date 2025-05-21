@@ -81,7 +81,7 @@ export default function Header() {
                 </Toolbar>
             </AppBar>
 
-            <Box sx={{ textAlign: 'center', m: 2 }}>
+            <Box sx={{ textAlign: 'center', m: 2}}>
                 <Typography variant="subtitle1" color="secondary" fontStyle="italic" fontWeight="700">
                     Vinyl Dreams, Tailored by You! Create your LPs Wish list here!
                 </Typography>
