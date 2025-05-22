@@ -10,6 +10,9 @@ import { nanoid } from 'nanoid';
 import Loader from '../components/Loader.jsx';
 import '../styles/VinylDetails.scss';
 import { Box, Typography, Button } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 
 const VinylDetails = () => {
     const { id } = useParams();
@@ -118,7 +121,7 @@ const VinylDetails = () => {
                                     }
                                 }}
                             >
-                                {isWishlisted ? '🖤' : '🤍'}
+                                {isWishlisted ? <FavoriteIcon color='secondary'/> : <FavoriteBorderIcon color='secondary'/>}
                             </Button>
                         </Box>
                         <Box
