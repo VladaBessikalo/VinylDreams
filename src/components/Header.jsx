@@ -47,7 +47,7 @@ export default function Header() {
                                 ) : (
                                     <Link to="/wishlist" style={{ textDecoration: 'none' }}>
                                         <Button
-                                            startIcon={<FavoriteIcon />}
+                                            startIcon={<FavoriteIcon color='secondary'/>}
                                             variant="contained"
                                             color="primary"
                                         >
