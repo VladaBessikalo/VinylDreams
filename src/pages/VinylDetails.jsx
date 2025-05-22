@@ -1,4 +1,4 @@
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, Link } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import { VinylContext } from '../context/VinylContext.jsx';
 import Header from '../components/Header.jsx';
@@ -12,6 +12,8 @@ import '../styles/VinylDetails.scss';
 import { Box, Typography, Button } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import AlertDialog from '../components/AlertDialog.jsx';
+import { AppButton } from '../components/AppButton.jsx';
 
 
 const VinylDetails = () => {
@@ -23,11 +25,8 @@ const VinylDetails = () => {
 
     const [isWishlisted, setIsWishlisted] = useState(false);
 
-    console.log('album', album);
-
     const vinyl =
         location.state?.album || vinyls.find((v) => v.id.toString() === id);
-    console.log(vinyl);
 
     const imageUrl =
         album?.images?.[0]?.uri || album?.images?.[0]?.resource_url;
@@ -35,6 +34,10 @@ const VinylDetails = () => {
     const label = album?.labels?.[0]?.name;
 
     const { user } = useAuth();
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const handleDialogOpen = () => setDialogOpen(true);
+    const handleDialogClose = () => setDialogOpen(false);
+
 
     useEffect(() => {
         const checkWishlist = async () => {
@@ -55,7 +58,7 @@ const VinylDetails = () => {
     }, [user, album]);
 
     const addToWishlist = async (album) => {
-        if (!user) return alert('Please log in first!');
+        if (!user) return handleDialogOpen();
         const wishlistRef = doc(db, 'wishlists', user.uid);
         const wishlistSnap = await getDoc(wishlistRef);
 
@@ -76,7 +79,7 @@ const VinylDetails = () => {
     };
 
     const removeFromWishlist = async (album) => {
-        if (!user) return alert('Please log in first!');
+        if (!user) return handleDialogOpen();
         const albumId = album.id.toString();
         const albumRef = doc(db, 'wishlists', user.uid, 'albums', albumId);
 
@@ -92,6 +95,19 @@ const VinylDetails = () => {
     return (
         <>
             <Header />
+            <AlertDialog 
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                title={"Login Required"}
+                description="You must be logged in to modify your wishlist. Please log in or create an account to continue."
+                actions={
+                <>
+                    <AppButton onClick={handleDialogClose}>Cancel</AppButton>
+                    <Link to="/login">
+                        <AppButton>Go to Login</AppButton>
+                    </Link>
+                </>}
+            />
             {loading ? (
                 <Loader />
             ) : error ? (

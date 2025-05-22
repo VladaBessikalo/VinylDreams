@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/context/AuthContext.jsx";
 import { AppBar, Toolbar, Typography, Box, Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
@@ -9,10 +9,17 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import SearchBar from "./SearchBar.jsx";
 import vinylIcon from "../assets/romantic-vinyl-svgrepo-com.svg";
 import "../styles/Header.scss";
+import { useState } from "react";
+import AlertDialog from "./AlertDialog.jsx";
+import { AppButton } from "./AppButton.jsx";
 
 export default function Header() {
   const { user, logOut } = useAuth();
   const { pathname } = useLocation();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const handleDialogOpen = () => setDialogOpen(true);
+  const handleDialogClose = () => setDialogOpen(false);
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -69,15 +76,20 @@ export default function Header() {
                 </Button>
               </Link>
             ) : (
-              <Link to="/wishlist" style={{ textDecoration: "none" }}>
-                <Button
-                  startIcon={<FavoriteIcon color="secondary" />}
-                  variant="contained"
-                  color="primary"
-                >
-                  My Vinyl Dreams
-                </Button>
-              </Link>
+              <Button
+                startIcon={<FavoriteIcon color="secondary" />}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  if (user) {
+                    navigate("/wishlist");
+                  } else {
+                    handleDialogOpen();
+                  }
+                }}
+              >
+                My Vinyl Dreams
+              </Button>
             )}
 
             {user ? (
@@ -114,6 +126,20 @@ export default function Header() {
           Vinyl Dreams, Tailored by You! Create your LPs Wish list here!
         </Typography>
       </Box>
+      <AlertDialog
+        open={dialogOpen}
+        onClose={handleDialogClose}
+        title={"Login Required"}
+        description="You must be logged in to modify your wishlist. Please log in or create an account to continue."
+        actions={
+          <>
+            <AppButton onClick={handleDialogClose}>Cancel</AppButton>
+            <Link to="/login">
+              <AppButton>Go to Login</AppButton>
+            </Link>
+          </>
+        }
+      />
     </Box>
   );
 }
