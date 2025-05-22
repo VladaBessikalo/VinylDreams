@@ -66,7 +66,7 @@ const AuthForm = ({ onSubmit, heading, linkText, linkPath, errorMessage }) => {
                             type="submit"
                             variant="contained"
                             fullWidth
-                            sx={{ marginTop: 2 }}
+                            sx={{ marginTop: 2, color: "primary.main" }}
                         >
                             {heading}
                         </AppButton>
